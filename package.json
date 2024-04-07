@@ -1,7 +1,7 @@
 {
   "name": "vite-plugin-public-transform",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": false,
   "description": "Improving the handling of static resources in Vite through replacing target string directly.",
   "author": "s3xysteak",
