@@ -6,12 +6,12 @@
   "description": "Improving the handling of static resources in Vite through replacing target string directly.",
   "author": "s3xysteak",
   "license": "MIT",
-  "homepage": "https://github.com/vite-plugin-public-transform",
+  "homepage": "https://github.com/s3xysteak/vite-plugin-public-transform",
   "repository": {
     "type": "git",
-    "url": "https://github.com/vite-plugin-public-transform.git"
+    "url": "https://github.com/s3xysteak/vite-plugin-public-transform.git"
   },
-  "bugs": "https://github.com/vite-plugin-public-transform/issues",
+  "bugs": "https://github.com/s3xysteak/vite-plugin-public-transform/issues",
   "keywords": [
     "vite",
     "assets",
