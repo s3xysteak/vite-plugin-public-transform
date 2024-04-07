@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.0",
   "private": false,
-  "description": "vite-plugin-public-transform",
+  "description": "Improving the handling of static resources in Vite through replacing target string directly.",
   "author": "s3xysteak",
   "license": "MIT",
   "homepage": "https://github.com/vite-plugin-public-transform",
