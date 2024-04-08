@@ -98,7 +98,7 @@ VitePluginPublic({
 
 VitePluginPublic({
   // <img src="@public/logo.svg" />
-  search: /@public/g,
+  search: /@public\//g,
 })
 
 VitePluginPublic({
