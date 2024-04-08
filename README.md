@@ -30,6 +30,18 @@ await fetch('/public/geojson.json')
 
 `/public/` will be replaced with [base](https://vitejs.dev/config/shared-options.html#base) during compilation.
 
+You can also customize prefix :
+
+```js
+VitePluginPublic({
+  search: '~p/'
+})
+```
+
+```html
+<img src="~p/it-worked.svg" />
+```
+
 ## :memo: Install
 
 Taking `pnpm` as an example:
@@ -54,45 +66,45 @@ export default defineConfig({
 
 ## :wrench: Options
 
-It can receive a string, which will be replaced.
-
-> In default it is `/public/`.
+Now it has two presets :
 
 ```js
-// vite.config.js
-VitePluginPublic('~public/')
-
-// main.ts
-document.querySelector('#app').innerHTML = `
-  <img src="~public/it-worked.svg" />
-`
+// VitePluginPublic('public')
+VitePluginPublic('quotes-public') // Default
 ```
 
-Or a RegExp ( Do not forget to use `global` mark! )
+It is highly customizable :
 
 ```js
-// vite.config.js
-VitePluginPublic(/~public/g)
+// Equal to VitePluginPublic('public')
+VitePluginPublic({
+  // <img src="/public/logo.svg" />
+  search: '/public/',
+  replace: base => base,
+})
 
-// main.ts
-document.querySelector('#app').innerHTML = `
-  <img src="~public/it-worked.svg" />
-`
-```
+// Equal to VitePluginPublic('quotes-public')
+VitePluginPublic({
+  // Same as above but its rule is more conservative.
+  search: '\"/public/',
+  replace: base => `\"${base}`,
+})
 
-Or a string array, to represent multiple replacement targets.
+VitePluginPublic({
+  // <img src="~p/logo.svg" />
+  search: '~p/',
+  // replace: base => base // default
+})
 
-```js
-// vite.config.js
-VitePluginPublic(['/public/', '~p/'])
+VitePluginPublic({
+  // <img src="@public/logo.svg" />
+  search: /@public/g,
+})
 
-// main.ts
-document.querySelector('#app').innerHTML = `
-  <img src="/public/it-worked.svg" />
-`
-document.querySelector('#twin').innerHTML = `
-  <img src="~p/it-worked.svg" />
-`
+VitePluginPublic({
+  // <img src="@p/logo.svg" /> <img src="~p/icon.svg" />
+  search: ['@p/', '~p/'],
+})
 ```
 
 ## License

@@ -30,6 +30,18 @@ await fetch('/public/geojson.json')
 
 其中 `/public/` 将在编译时被替换为 [base](https://cn.vitejs.dev/config/shared-options.html#base)。
 
+你也可以自定义前缀：
+
+```js
+VitePluginPublic({
+  search: '~p/'
+})
+```
+
+```html
+<img src="~p/it-worked.svg" />
+```
+
 ## :memo: 安装
 
 以 `pnpm` 为例:
@@ -54,48 +66,45 @@ export default defineConfig({
 
 ## :wrench: 选项
 
-他接受一个字符串，用于表示被替换的目标字符串。
-
-> 默认为 `/public/`。
+他现在有两个预设 :
 
 ```js
-// vite.config.js
-VitePluginPublic('~public/')
-
-// main.ts
-document.querySelector('#app').innerHTML = `
-  <img src="~public/it-worked.svg" />
-`
+// VitePluginPublic('public')
+VitePluginPublic('quotes-public') // 默认行为
 ```
 
-或者一个正则 ( 别忘了用 `global` 标记! )
+他还可以高度自定义 :
 
 ```js
-// vite.config.js
-VitePluginPublic(/~public/g)
+// 等价于 VitePluginPublic('public')
+VitePluginPublic({
+  // <img src="/public/logo.svg" />
+  search: '/public/',
+  replace: base => base,
+})
 
-// main.ts
-document.querySelector('#app').innerHTML = `
-  <img src="~public/it-worked.svg" />
-`
-```
+// 等价于 VitePluginPublic('quotes-public')
+VitePluginPublic({
+  // 和上面相同，但它的规则更加保守
+  search: '\"/public/',
+  replace: base => `\"${base}`,
+})
 
-或者一个字符串数组，用于表示多个替换目标。
+VitePluginPublic({
+  // <img src="~p/logo.svg" />
+  search: '~p/',
+  // replace: base => base // 默认
+})
 
-```js
-// vite.config.js
-VitePluginPublic([
-  '/public/',
-  '~p/'
-])
+VitePluginPublic({
+  // <img src="@public/logo.svg" />
+  search: /@public/g,
+})
 
-// main.ts
-document.querySelector('#app').innerHTML = `
-  <img src="/public/it-worked.svg" />
-`
-document.querySelector('#twin').innerHTML = `
-  <img src="~p/it-worked.svg" />
-`
+VitePluginPublic({
+  // <img src="@p/logo.svg" /> <img src="~p/icon.svg" />
+  search: ['@p/', '~p/'],
+})
 ```
 
 ## License
