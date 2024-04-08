@@ -1,9 +1,9 @@
-import type { Search } from '.'
+import type { PublicTransformSearch } from '.'
 
 const isString = (val: unknown): val is string => typeof val === 'string'
 const isRegExp = (val: unknown): val is RegExp => val instanceof RegExp
 
-export function resolveSearch(search: Search): RegExp {
+export function resolveSearch(search: PublicTransformSearch): RegExp {
   if (Array.isArray(search))
     return new RegExp(search.join('|'), 'g')
 

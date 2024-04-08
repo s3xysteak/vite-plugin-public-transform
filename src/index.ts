@@ -5,9 +5,9 @@ import { resolveSearch } from './resolve'
  * Replace the specified string or regular expression with the base path.
  * @default '/public/'
  */
-export type Search = string | RegExp | string[]
+export type PublicTransformSearch = string | RegExp | string[]
 
-function entry(search: Search = '/public/'): Plugin {
+function entry(search: PublicTransformSearch = '/public/'): Plugin {
   search = resolveSearch(search)
 
   let base: string
