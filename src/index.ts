@@ -8,6 +8,9 @@ export interface PublicTransformOptions {
    */
   search: string | RegExp | string[]
 
+  /**
+   * Replace the specified string with the base path.
+   */
   replace: (base: string) => string
 }
 
