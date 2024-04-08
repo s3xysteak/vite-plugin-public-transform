@@ -4,9 +4,6 @@ import VitePluginPublic from 'vite-plugin-public-transform'
 export default defineConfig({
   base: '/test/',
   plugins: [
-    VitePluginPublic({
-      search: ['\"~p/', '\"/public/'],
-      replace: base => `\"${base}`,
-    }),
+    VitePluginPublic(),
   ],
 })

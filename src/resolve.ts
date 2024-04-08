@@ -1,7 +1,6 @@
-import type { PublicTransformOptions, PublicTransformParams, PublicTransformSearch } from '.'
+import { presetMap } from './preset'
+import type { PublicTransformOptions, PublicTransformParams } from '.'
 
-const toString = (v: any) => Object.prototype.toString.call(v)
-const isObject = (val: any): val is object => toString(val) === '[object Object]'
 const isString = (val: unknown): val is string => typeof val === 'string'
 const isRegExp = (val: unknown): val is RegExp => val instanceof RegExp
 
@@ -9,17 +8,15 @@ interface ResolveOptionsReturns extends PublicTransformOptions {
   search: RegExp
 }
 
-export function resolveOptions(options: PublicTransformParams): ResolveOptionsReturns {
-  const isObj = isObject(options)
+export function resolveOptions(options: PublicTransformParams = 'quotes-public'): ResolveOptionsReturns {
+  const _options = isString(options) ? presetMap[options] : options
 
-  const search = isObj
-    ? resolveSearch((options as PublicTransformOptions).search)
-    : resolveSearch((options as PublicTransformSearch))
+  const search = resolveSearch(_options.search)
 
-  return Object.assign({ replace: (base: string) => base }, isObj ? { ...options, search } : { search })
+  return Object.assign({ replace: (base: string) => base }, { ..._options, search })
 }
 
-export function resolveSearch(search: PublicTransformSearch): RegExp {
+export function resolveSearch(search: PublicTransformOptions['search']): RegExp {
   if (Array.isArray(search))
     return new RegExp(search.join('|'), 'g')
 
