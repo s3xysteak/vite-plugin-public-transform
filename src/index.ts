@@ -18,7 +18,7 @@ function entry(search: Search = '/public/'): Plugin {
       base = config.base
     },
     transform(code) {
-      return code.replaceAll(search, base)
+      return code.replace(search, base)
     },
   }
 }
