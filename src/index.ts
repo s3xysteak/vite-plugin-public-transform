@@ -1,14 +1,21 @@
 import type { Plugin } from 'vite'
-import { resolveSearch } from './resolve'
+import { resolveOptions } from './resolve'
 
-/**
- * Replace the specified string or regular expression with the base path.
- * @default '/public/'
- */
 export type PublicTransformSearch = string | RegExp | string[]
+export interface PublicTransformOptions {
+  /**
+   * Replace the specified string or regular expression with the base path.
+   */
+  search: PublicTransformSearch
 
-function entry(search: PublicTransformSearch = '/public/'): Plugin {
-  search = resolveSearch(search)
+  replace: (base: string) => string
+}
+
+/** @default '/public/' */
+export type PublicTransformParams = PublicTransformSearch | Partial<PublicTransformOptions>
+
+function entry(options: PublicTransformParams = '/public/'): Plugin {
+  const _options = resolveOptions(options)
 
   let base: string
 
@@ -18,7 +25,7 @@ function entry(search: PublicTransformSearch = '/public/'): Plugin {
       base = config.base
     },
     transform(code) {
-      return code.replace(search, base)
+      return code.replace(_options.search, _options.replace(base))
     },
   }
 }

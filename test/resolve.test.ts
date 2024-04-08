@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { resolveSearch } from '@/resolve'
+import { resolveOptions, resolveSearch } from '@/resolve'
 
 describe('resolveSearch', () => {
   it('should work with string', () => {
@@ -14,5 +14,43 @@ describe('resolveSearch', () => {
   it('should work with string[]', () => {
     const val = resolveSearch(['/public/', '/assets/'])
     expect(val).toEqual(/\/public\/|\/assets\//g)
+  })
+})
+
+describe('resolveOptions', () => {
+  it('should work with object', () => {
+    const val = resolveOptions({ search: /\/public\//g })
+
+    expect(val.search).toEqual(/\/public\//g)
+  })
+
+  it('should work with object and string', () => {
+    const val = resolveOptions({ search: '/public/' })
+
+    expect(val.search).toEqual(/\/public\//g)
+  })
+
+  it('should work with object and string[]', () => {
+    const val = resolveOptions({ search: ['/public/', '/assets/'] })
+
+    expect(val.search).toEqual(/\/public\/|\/assets\//g)
+  })
+
+  it('should work with object and RegExp', () => {
+    const val = resolveOptions({ search: /\/public\//g })
+
+    expect(val.search).toEqual(/\/public\//g)
+  })
+
+  it('should work with replace initial', () => {
+    const val = resolveOptions({ search: '/public/', replace: (base: string) => base })
+
+    expect(val.replace('anything')).toBe('anything')
+  })
+
+  it('should work with replace customized', () => {
+    const val = resolveOptions({ search: '/public/', replace: (base: string) => `do-${base}` })
+
+    expect(val.replace('anything')).toBe('do-anything')
   })
 })
