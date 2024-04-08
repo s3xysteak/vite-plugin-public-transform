@@ -1,6 +1,6 @@
 import './style.css'
 
-fetch('~p/msg.json')
+fetch('/public/msg.json')
   .then(res => res.json())
   .then((data) => {
     document.querySelector<HTMLHeadingElement>('#msg')!.innerHTML = data.msg
