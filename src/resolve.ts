@@ -1,5 +1,5 @@
 import { presetMap } from './preset'
-import type { PublicTransformOptions, PublicTransformParams } from '.'
+import type { MaybeArray, PublicTransformOptions, PublicTransformParams } from '.'
 
 const isString = (val: unknown): val is string => typeof val === 'string'
 const isRegExp = (val: unknown): val is RegExp => val instanceof RegExp
@@ -8,12 +8,15 @@ interface ResolveOptionsReturns extends PublicTransformOptions {
   search: RegExp
 }
 
-export function resolveOptions(options: PublicTransformParams = 'quotes-public'): ResolveOptionsReturns {
-  const _options = isString(options) ? presetMap[options] : options
+export function resolveOptions(options: MaybeArray<PublicTransformParams> = 'quotes-public'): ResolveOptionsReturns[] {
+  const list = Array.isArray(options) ? options : [options]
+  return list.map((option) => {
+    const _options = isString(option) ? presetMap[option] : option
 
-  const search = resolveSearch(_options.search)
+    const search = resolveSearch(_options.search)
 
-  return Object.assign({ replace: (base: string) => base }, { ..._options, search })
+    return Object.assign({ replace: (base: string) => base }, { ..._options, search })
+  })
 }
 
 export function resolveSearch(search: PublicTransformOptions['search']): RegExp {
